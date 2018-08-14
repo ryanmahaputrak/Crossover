@@ -1,0 +1,54 @@
+#TSP
+#MTSP
+#REPRODUCTION
+#CROSSOVER
+
+public int[][] Crossover(int[][] arrayPopulasi) {
+int[][] tmpArray = arrayPopulasi, tmpArrayRute = new int[tmpArray.length][panjangSegmenRute], tmpArrayTruk = new int[tmpArray.length][panjangSegmenTruk];
+int[][] finalKrom = new int[(int) Math.ceil(cr * populasi)][stringLength],
+kromFix = new int[finalKrom.length + tmpArray.length][stringLength];
+int[] tmpKrom = new int[tmpArray[0].length], tmpRute, tmpTruk = new int[panjangSegmenTruk];
+int parentAcak1 = 0, parentAcak2 = 0, genRuteX = 0, panjangRute = panjangSegmenRute, incre = 0;
+for (int i = 0; i < tmpArray.length; i++) {
+for (int k = 0; k < tmpArray[0].length; k++) {
+kromFix[i][k] = tmpArray[i][k];
+}
+}
+for (int w = 0; w < finalKrom.length; w++) {
+while (parentAcak1 == parentAcak2) {
+parentAcak1 = getRandom(0, tmpArray.length - 1);
+parentAcak2 = getRandom(0, tmpArray.length - 1);
+}
+genRuteX = getRandom(0, panjangSegmenRute - 1);\
+for (int i = 0; i < tmpArray.length; i++) {
+for (int k = 0; k < panjangSegmenRute; k++) {
+tmpArrayRute[i][k] = tmpArray[i][k];
+}
+}
+for (int k = 0; k < panjangSegmenTruk; k++) {
+tmpTruk[k] = tmpArray[parentAcak1][panjangRute];
+panjangRute++;
+}
+panjangRute = panjangSegmenRute;
+tmpRute = coreCrossover(tmpArrayRute, genRuteX, parentAcak1, parentAcak2);
+for (int k = 0; k < tmpRute.length; k++) {
+tmpKrom[k] = tmpRute[k];
+}
+incre = 0;
+for (int k = panjangSegmenRute; k < tmpTruk.length + panjangSegmenRute; k++) {
+tmpKrom[k] = tmpTruk[incre];
+incre++;
+}
+for (int k = 0; k < finalKrom[0].length; k++) {
+finalKrom[w][k] = tmpKrom[k];
+}
+parentAcak1 = parentAcak2 = genRuteX = 0;
+}
+incre = tmpArray.length;
+for (int i = 0; i < finalKrom.length; i++) {
+for (int k = 0; k < finalKrom[0].length; k++) {
+kromFix[incre][k] = finalKrom[i][k];
+}
+incre++;
+}
+return kromFix; }
